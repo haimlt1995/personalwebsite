@@ -9,10 +9,10 @@ export default function Page() {
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-100 mb-4">
-            Your Name
+            Haim Lev Tov
           </h1>
           <p className="text-xl sm:text-2xl text-blue-300 font-medium">
-            Professional Title / Role
+            Computer Science Student
           </p>
         </div>
 
@@ -20,13 +20,14 @@ export default function Page() {
         <div className="bg-slate-800/90 backdrop-blur-sm rounded-lg shadow-xl border border-blue-800/30 p-8 sm:p-10 mb-12">
           <h2 className="text-2xl font-semibold text-blue-300 mb-6">About Me</h2>
           <p className="text-slate-300 leading-relaxed mb-4">
-            Welcome to my personal website! I am a passionate professional with expertise in 
-            software development, problem-solving, and creating innovative solutions. 
-            I thrive in collaborative environments and am always eager to learn and grow.
+            I am a Computer Science student and DevOps enthusiast with hands-on technical experience 
+            from my previous role as a System Administrator. My passion for technology drives me to 
+            continuously explore new tools and methodologies in the DevOps ecosystem.
           </p>
           <p className="text-slate-300 leading-relaxed">
-            With a strong foundation in modern web technologies and a commitment to excellence, 
-            I bring creativity and technical skills to every project I work on.
+            As a technology enthusiast at heart, I combine my academic learning with practical 
+            experience to build robust systems and improve development workflows. I'm always eager 
+            to tackle new challenges and contribute to innovative projects.
           </p>
         </div>
 
@@ -35,16 +36,25 @@ export default function Page() {
           <h2 className="text-2xl font-semibold text-blue-300 mb-6">Skills</h2>
           <div className="flex flex-wrap gap-3">
             {[
-              'JavaScript',
-              'TypeScript',
-              'React',
-              'Next.js',
-              'Node.js',
               'Python',
-              'HTML/CSS',
-              'Git',
-              'Problem Solving',
-              'Team Collaboration'
+              'C++',
+              'C',
+              'Linux',
+              'System Administration',
+              'Troubleshooting',
+              'Technical Support',
+              'Technology Implementation',
+              'Active Directory',
+              'Group Policy',
+              'Cisco Networking',
+              'Checkpoint',
+              'Citrix',
+              'VMware',
+              'Microsoft Exchange',
+              'McAfee',
+              'PowerShell',
+              'Windows',
+              'Problem Solving'
             ].map((skill) => (
               <span
                 key={skill}
@@ -61,7 +71,7 @@ export default function Page() {
           <h2 className="text-2xl font-semibold text-blue-300 mb-6">Connect With Me</h2>
           <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
             <a
-              href="https://linkedin.com/in/yourprofile"
+              href="https://www.linkedin.com/in/haimlevtov"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors shadow-lg hover:shadow-blue-500/50 hover:scale-105"
@@ -73,7 +83,7 @@ export default function Page() {
             </a>
             
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/haimlt1995"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 bg-slate-700 text-white rounded-lg font-medium hover:bg-slate-600 transition-colors shadow-lg hover:shadow-slate-600/50 hover:scale-105"
@@ -83,16 +93,6 @@ export default function Page() {
               </svg>
               GitHub
             </a>
-            
-            <a
-              href="mailto:your.email@example.com"
-              className="inline-flex items-center px-6 py-3 bg-blue-700 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors shadow-lg hover:shadow-blue-600/50 hover:scale-105"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
-              Email
-            </a>
           </div>
         </div>
       </main>
@@ -101,7 +101,7 @@ export default function Page() {
       <footer id="contact" className="border-t border-blue-800/50 bg-slate-900/90 py-8">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <p className="text-center text-slate-400 text-sm">
-            © {new Date().getFullYear()} Your Name. All rights reserved.
+            © {new Date().getFullYear()} Haim Lev Tov. All rights reserved.
           </p>
         </div>
       </footer>

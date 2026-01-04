@@ -5,7 +5,7 @@ export default function Navigation() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <a href="/" className="text-xl font-semibold text-slate-100 hover:text-blue-300 transition-colors">
-              Your Name
+              Haim Lev Tov
             </a>
           </div>
           <div className="hidden md:flex md:items-center md:space-x-8">
