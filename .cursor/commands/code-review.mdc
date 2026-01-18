@@ -1,0 +1,207 @@
+---
+description: "Run Red Queen pattern code review on staged changes - analyzes code against Cursor rules and provides structured feedback with rule references"
+---
+
+# Code Review Command
+
+This command implements the **Red Queen Pattern** for code review. It analyzes staged changes against your Cursor rules and provides structured feedback where every issue references a specific rule file.
+
+## The Red Queen Pattern
+
+When a violation is found, ask yourself: **Is the rule right?**
+- ✅ **YES** → Fix the code to match the rule
+- 🔄 **NO** → Update the rule in `.cursor/rules/` to reflect current standards
+
+This creates a self-evolving system where rules stay relevant and code stays consistent.
+
+## Review Process
+
+When you invoke this command with `@code-review`, it will:
+
+1. **Get staged changes**: Analyze files that have been staged with `git add`
+2. **Load Cursor rules**: Read all rule files from `.cursor/rules/*.mdc`
+3. **Review against rules**: Check each staged file against applicable rules
+4. **Generate structured feedback**: Provide violations, suggestions, and rule references
+
+## Review Instructions
+
+Perform a comprehensive code review following these steps:
+
+### Step 1: Identify Staged Files
+
+First, determine which files are staged for commit:
+
+```bash
+git diff --staged --name-only
+```
+
+Filter to relevant files (TypeScript, JavaScript, React files in `app/` directory):
+- `.ts`, `.tsx`, `.js`, `.jsx` files
+- Files in `app/` directory or subdirectories
+- Test files if any (`.test.tsx`, `.spec.tsx`)
+
+Display the list of files being reviewed at the start of the feedback.
+
+### Step 2: Load and Review Against Rules
+
+For each staged file, review it against ALL applicable Cursor rules:
+
+**Available Rules:**
+- `@nextjs-app-router.mdc` - Next.js App Router conventions
+- `@react-components.mdc` - React component standards
+- `@typescript-standards.mdc` - TypeScript patterns
+- `@tailwind-styling.mdc` - Tailwind CSS guidelines
+- `@file-structure.mdc` - File organization patterns
+- `@testing-patterns.mdc` - Testing conventions
+
+**Review Each File For:**
+
+1. **Next.js App Router Compliance**
+   - File naming conventions (`page.tsx`, `layout.tsx`)
+   - Server Components (no `"use client"` unless needed)
+   - Metadata exports for SEO
+   - Route structure and organization
+
+2. **React Component Standards**
+   - Component name matches file name (PascalCase)
+   - Default exports for components
+   - Props typing (TypeScript types/interfaces)
+   - Component structure (imports → component → export)
+   - Use of `import type` for type-only imports
+
+3. **TypeScript Conventions**
+   - Type annotations for props
+   - Use of `import type` vs regular imports
+   - Type definitions (inline vs separate)
+   - Avoiding `any` type
+
+4. **Tailwind CSS Usage**
+   - No inline styles (use `className` with Tailwind utilities)
+   - Responsive design patterns (base → `sm:` → `md:` → `lg:`)
+   - Consistent color scheme (slate/blue theme)
+   - Proper use of utility classes
+
+5. **File Structure**
+   - Files in correct directories
+   - Naming conventions (PascalCase for components)
+   - Import paths (relative imports)
+   - Test file co-location
+
+6. **Testing Patterns** (if test files are staged)
+   - Test file naming (`.test.tsx` or `.spec.tsx`)
+   - Use of `@testing-library/react`
+   - Test structure and organization
+
+### Step 3: Generate Structured Feedback
+
+For each violation found, provide structured feedback in this format:
+
+```markdown
+### [file-path]
+
+**Issue:** [Brief description of the issue]
+**Rule Violated:** `[rule-file.mdc]` - "[exact rule text from the rule file]"
+**Current:**
+```tsx
+[Actual code from the file]
+```
+
+**Suggestion:**
+```tsx
+[Suggested fix with code]
+```
+```
+
+### Step 4: Categorize Issues
+
+Organize feedback into these categories:
+
+1. **🔴 Critical Issues (Must Fix)** - Rule violations that must be addressed
+2. **⚠️ Warnings (Consider Fixing)** - Issues that are worth addressing but not blockers
+3. **💡 Rule Evolution Opportunities** - Patterns detected that might need new rules or rule updates
+4. **✅ Passed Checks** - Positive feedback on what follows the rules correctly
+
+### Step 5: Provide Feedback Loop Reminder
+
+At the end of the review, include:
+
+```markdown
+🔄 Feedback Loop Decision
+
+For each violation found, ask yourself:
+
+**Is the rule right?**
+- ✅ **YES** → Fix the code to match the rule
+- 🔄 **NO** → Update the rule in `.cursor/rules/` to reflect current standards
+
+This creates a self-evolving system where rules stay relevant and code stays consistent.
+```
+
+## Output Format
+
+Structure the complete review output as follows:
+
+```markdown
+🔍 Code Review
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Staged Files:
+  - [list each staged file]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔴 Critical Issues (Must Fix)
+
+[For each critical issue, provide the structured format above]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ Warnings (Consider Fixing)
+
+[For each warning, provide the structured format above]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 Rule Evolution Opportunities
+
+**Pattern Detected:** [Describe pattern]
+**Suggestion:** Consider adding/updating rule in `[rule-file.mdc]` for [specific pattern]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Passed Checks
+
+✓ [List what follows the rules correctly]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔄 Feedback Loop Decision
+
+For each violation found, ask yourself:
+
+**Is the rule right?**
+- ✅ **YES** → Fix the code to match the rule
+- 🔄 **NO** → Update the rule in `.cursor/rules/` to reflect current standards
+
+This creates a self-evolving system where rules stay relevant and code stays consistent.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+## Key Principles
+
+1. **Rule-Referenced Feedback**: Every issue must reference a specific rule file and quote the relevant rule text
+2. **Concrete Suggestions**: Every suggestion must include actual code examples
+3. **Evolution Opportunities**: Flag patterns that might need new rules or rule updates
+4. **Consistency**: Same violations should trigger the same feedback every time
+5. **Actionable**: Every issue should have a clear path to resolution (fix code OR update rule)
+
+## Usage
+
+1. Stage your changes: `git add .`
+2. Invoke the command: `@code-review` in Cursor Chat
+3. Review the structured feedback
+4. Make decision for each violation: Fix code OR update rule
+5. Commit once all issues are resolved or rules are updated
+
+This creates a perpetual evolution cycle where your codebase and rules continuously improve together.

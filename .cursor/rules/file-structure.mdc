@@ -1,0 +1,137 @@
+---
+description: "Project file organization and naming conventions for consistent codebase structure"
+alwaysApply: true
+---
+
+# File Structure and Organization
+
+Follow these conventions for organizing files and directories in the project.
+
+## Directory Structure
+
+```
+app/                    # Next.js App Router directory
+  components/           # Reusable React components
+  globals.css          # Global styles
+  layout.tsx           # Root layout
+  page.tsx             # Home page route
+  [routes]/            # Additional routes as folders
+    page.tsx           # Route page
+    layout.tsx         # Route-specific layout (optional)
+
+.cursor/               # Cursor configuration
+  rules/               # Project rules (this directory)
+
+__tests__/             # Test files (co-located or here)
+  component.test.tsx
+
+[jest.config.ts]       # Jest configuration
+[tsconfig.json]        # TypeScript configuration
+[tailwind.config.ts]   # Tailwind CSS configuration
+[package.json]         # Dependencies and scripts
+```
+
+## Component Organization
+
+- **Components**: Place reusable components in `app/components/`
+- **File naming**: Use PascalCase matching component name
+  - Example: `Navigation.tsx` exports `Navigation` component
+- **Subdirectories**: Group related components in subdirectories if needed:
+  ```
+  app/components/
+    Navigation.tsx
+    Header.tsx
+    Footer.tsx
+    ui/
+      Button.tsx
+      Card.tsx
+  ```
+
+See existing structure:
+- `@app/components/Navigation.tsx`
+
+## Route Organization
+
+- **App Router routes**: All routes go in `app/` directory
+- **Nested routes**: Create nested folders for nested routes
+- **Special files**: Use Next.js conventions (`page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`)
+
+Current routes:
+- `app/page.tsx` - Home route (/)
+- `app/layout.tsx` - Root layout
+
+## Configuration Files
+
+All configuration files belong in the project root:
+
+- `tsconfig.json` - TypeScript configuration
+- `tailwind.config.ts` - Tailwind CSS configuration
+- `jest.config.ts` - Jest test configuration
+- `jest.setup.ts` - Jest setup file
+- `postcss.config.mjs` - PostCSS configuration
+- `package.json` - npm dependencies and scripts
+- `README.md` - Project documentation
+
+## Test Files
+
+Test files can be:
+
+1. **Co-located** with source files:
+   - `Navigation.test.tsx` next to `Navigation.tsx`
+
+2. **In `__tests__` directories**:
+   ```
+   __tests__/
+     Navigation.test.tsx
+   ```
+
+3. **Naming**: Use `.test.tsx` or `.spec.tsx` extension
+   - Example: `Navigation.test.tsx`, `page.spec.tsx`
+
+Test configuration: `@jest.config.ts`
+
+## File Extensions
+
+- **`.tsx`** - React components and JSX files
+- **`.ts`** - TypeScript files (utilities, types, configs)
+- **`.css`** - Stylesheet files (use sparingly, prefer Tailwind)
+- **`.mdc`** - Cursor rule files with frontmatter
+- **`.md`** - Markdown documentation
+
+## Import Paths
+
+- **Relative imports**: Use relative paths for local files
+  ```typescript
+  import Navigation from "./components/Navigation";
+  ```
+
+- **Path aliases**: Jest is configured with `@/` mapping to project root (see `@jest.config.ts`)
+  ```typescript
+  // In test files
+  import { something } from "@/app/components/Navigation";
+  ```
+
+## Naming Conventions
+
+- **Files**: 
+  - Components: PascalCase (`Navigation.tsx`, `Header.tsx`)
+  - Utilities: camelCase (`utils.ts`, `helpers.ts`)
+  - Configs: kebab-case or exact (`jest.config.ts`, `tailwind.config.ts`)
+
+- **Components**: PascalCase, matching file name
+- **Functions**: camelCase
+- **Types/Interfaces**: PascalCase
+
+## Best Practices
+
+- Keep related files together
+- Use meaningful, descriptive names
+- Match component names to file names
+- Group related components in subdirectories when appropriate
+- Keep the root directory clean (only config files and README)
+
+## References
+
+- Next.js App Router: `@app/` directory structure
+- Components: `@app/components/`
+- Configuration: Root directory config files

@@ -1,0 +1,75 @@
+---
+description: "Next.js 16 App Router conventions and patterns for routing, layouts, and server components"
+alwaysApply: true
+---
+
+# Next.js App Router Standards
+
+This project uses Next.js 16 with the App Router (not Pages Router). Follow these conventions for all routing and page-related code.
+
+## File Conventions
+
+Use the standard Next.js App Router file naming conventions:
+
+- `page.tsx` - Route pages that define the UI for a route
+- `layout.tsx` - Shared layouts that wrap pages and other layouts
+- `loading.tsx` - Loading UI shown while content loads
+- `error.tsx` - Error UI for error boundaries
+- `not-found.tsx` - UI for 404 pages
+
+See examples in:
+- `@app/page.tsx` - Home page route
+- `@app/layout.tsx` - Root layout component
+
+## Route Organization
+
+- All routes are defined in the `app/` directory
+- Each folder represents a route segment
+- Nested routes are created by nested folders
+- Dynamic routes use `[param]` folder naming
+- Catch-all routes use `[...param]` folder naming
+
+## Server Components by Default
+
+- All components are Server Components by default (no JavaScript sent to client)
+- Use the `"use client"` directive only when needed for:
+  - Interactive components (onClick, onChange, etc.)
+  - Browser-only APIs (window, document, localStorage, etc.)
+  - React hooks (useState, useEffect, useContext, etc.)
+  - Third-party libraries that require client-side JavaScript
+
+Example from `@app/page.tsx` - this is a Server Component (no "use client" directive needed).
+
+## Metadata
+
+Export metadata objects in layouts and pages for SEO:
+
+```typescript
+export const metadata = {
+  title: "Page Title",
+  description: "Page description for SEO",
+};
+```
+
+See `@app/layout.tsx` for an example of metadata export.
+
+## Layouts
+
+- Root layout (`app/layout.tsx`) wraps all pages
+- Must include `<html>` and `<body>` tags
+- Can include shared UI like navigation, headers, footers
+- Layouts are nested and compose together
+
+## Pages
+
+- Each `page.tsx` file exports a default component
+- Pages are Server Components unless marked with `"use client"`
+- Can fetch data directly without getServerSideProps or getStaticProps
+
+## Best Practices
+
+- Keep Server Components as the default choice
+- Only mark components as Client Components when necessary
+- Use async Server Components for data fetching
+- Import CSS files in layouts using `import "./globals.css"`
+- Use route groups `(folder)` for organization without affecting URLs

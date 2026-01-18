@@ -1,0 +1,93 @@
+---
+description: "TypeScript usage patterns and best practices for type safety and code quality"
+---
+
+# TypeScript Standards
+
+Follow these TypeScript conventions throughout the codebase to maintain type safety and code quality.
+
+## Type Imports
+
+Use `import type` for type-only imports to improve build performance and clarity:
+
+```typescript
+import type { ReactNode } from "react";
+import type { Config } from "tailwindcss";
+```
+
+See examples in:
+- `@app/layout.tsx` - uses `import type { ReactNode }`
+- `@tailwind.config.ts` - uses `import type { Config }`
+
+## Type Annotations
+
+- Always type component props explicitly
+- Use TypeScript's type inference for local variables when types are obvious
+- Add explicit return types for complex functions
+- Use type annotations for function parameters
+
+## Type Definitions
+
+- Inline types for simple, single-use cases:
+
+```typescript
+export default function Component({ name, age }: { name: string; age: number }) {
+  // component code
+}
+```
+
+- Separate type/interface files for complex or reusable types:
+
+```typescript
+// types/user.ts
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+};
+```
+
+- Use `type` for unions, intersections, and computed types
+- Use `interface` for object shapes that might be extended
+
+## Current TypeScript Configuration
+
+The project uses TypeScript 5.9.3 with the following notable settings (see `@tsconfig.json`):
+
+- `strict: false` - Strict type checking is currently disabled
+- `target: "ES2017"` - Compiles to ES2017
+- `jsx: "react-jsx"` - Uses the new JSX transform
+- `moduleResolution: "node"` - Node module resolution
+
+## Type Safety Best Practices
+
+- Avoid using `any` type - use `unknown` if the type is truly unknown
+- Use type guards for runtime type checking
+- Leverage TypeScript's utility types (`Partial`, `Pick`, `Omit`, etc.)
+- Use const assertions when appropriate: `as const`
+- Prefer `readonly` for immutable data structures
+
+## Type Checking
+
+Run type checking with:
+```bash
+npm run typecheck
+```
+
+This runs `tsc --noEmit` to check types without emitting files.
+
+## React + TypeScript Patterns
+
+- Use `ReactNode` for children prop types
+- Use `FC` type sparingly (prefer explicit function declarations)
+- Type event handlers explicitly:
+  ```typescript
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // handler code
+  };
+  ```
+
+## References
+
+- TypeScript configuration: `@tsconfig.json`
+- Package.json for TypeScript version: `@package.json`

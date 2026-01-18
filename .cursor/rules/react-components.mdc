@@ -1,0 +1,89 @@
+---
+description: "React 19 component patterns and conventions for functional components with TypeScript"
+globs: ["app/components/**/*.{tsx,jsx}"]
+---
+
+# React Component Standards
+
+Follow these patterns when creating React components in the `app/components/` directory.
+
+## Component Structure
+
+Use functional components with TypeScript. Structure components in this order:
+
+1. Type imports (if needed)
+2. Component imports from React or other libraries
+3. Local imports (relative imports)
+4. Type definitions (if simple, inline)
+5. Component function
+6. Default export
+
+Reference `@app/components/Navigation.tsx` as a canonical example.
+
+## Exports
+
+- Use **default exports** for components
+- Component name should match the file name (PascalCase)
+- Example: `Navigation.tsx` exports `Navigation` component
+
+```typescript
+// Navigation.tsx
+export default function Navigation() {
+  // component code
+}
+```
+
+## Naming Conventions
+
+- Component files: PascalCase (e.g., `Navigation.tsx`, `Header.tsx`)
+- Component names: PascalCase, matching file name
+- Props interfaces: PascalCase with descriptive name (e.g., `NavigationProps`)
+
+## Props
+
+- Define props using TypeScript types or interfaces
+- Use `import type` for type-only imports when appropriate
+- Props can be inline for simple cases:
+
+```typescript
+export default function Component({ prop1, prop2 }: { prop1: string; prop2: number }) {
+  // component code
+}
+```
+
+- Or separate interface for complex props:
+
+```typescript
+type ComponentProps = {
+  title: string;
+  description?: string;
+  items: Array<{ id: string; name: string }>;
+};
+
+export default function Component({ title, description, items }: ComponentProps) {
+  // component code
+}
+```
+
+## Component Best Practices
+
+- Keep components focused and single-purpose
+- Extract reusable logic into custom hooks
+- Use composition over inheritance
+- Prefer props over context for simple data passing
+- Keep component files small and maintainable
+
+## TypeScript
+
+- Always use TypeScript for components (`.tsx` extension)
+- Type all props explicitly
+- Use React's built-in types when appropriate (e.g., `ReactNode` for children)
+
+Example from `@app/layout.tsx`:
+```typescript
+import type { ReactNode } from "react";
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  // layout code
+}
+```

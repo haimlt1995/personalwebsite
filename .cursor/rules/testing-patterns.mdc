@@ -1,0 +1,178 @@
+---
+description: "Jest and Testing Library conventions for writing and organizing tests"
+globs: ["**/*.{test,spec}.{ts,tsx}"]
+---
+
+# Testing Standards
+
+Follow these conventions when writing tests with Jest and React Testing Library.
+
+## Test Framework
+
+- **Jest**: Primary testing framework
+- **React Testing Library**: For component testing (`@testing-library/react`)
+- **Jest DOM**: Extended matchers (`@testing-library/jest-dom`)
+
+Configuration files:
+- `@jest.config.ts` - Jest configuration
+- `@jest.setup.ts` - Global test setup
+
+## Test File Naming
+
+Use one of these patterns for test files:
+
+- `*.test.tsx` - Component tests (e.g., `Navigation.test.tsx`)
+- `*.test.ts` - Utility/function tests (e.g., `utils.test.ts`)
+- `*.spec.tsx` - Alternative naming (e.g., `page.spec.tsx`)
+- `*.spec.ts` - Alternative naming
+
+Test files should be:
+- Co-located with source files: `Navigation.test.tsx` next to `Navigation.tsx`
+- Or in `__tests__/` directories: `__tests__/Navigation.test.tsx`
+
+## Test Structure
+
+Structure tests following this pattern:
+
+```typescript
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import Component from "./Component";
+
+describe("Component", () => {
+  it("renders correctly", () => {
+    render(<Component />);
+    expect(screen.getByText("Expected Text")).toBeInTheDocument();
+  });
+
+  it("handles user interaction", () => {
+    // test implementation
+  });
+});
+```
+
+## Jest Configuration
+
+Key configuration from `@jest.config.ts`:
+
+- **Test environment**: `jsdom` (for DOM testing)
+- **Setup file**: `jest.setup.ts` (runs before each test)
+- **Path alias**: `@/` maps to project root
+- **Test match**: `**/__tests__/**/*.[jt]s?(x)`, `**/?(*.)+(spec|test).[jt]s?(x)`
+- **Coverage provider**: `v8`
+
+## Path Aliases
+
+Use the `@/` path alias for imports in test files:
+
+```typescript
+import Component from "@/app/components/Navigation";
+```
+
+The alias is configured in `@jest.config.ts`:
+```typescript
+moduleNameMapper: {
+  "^@/(.*)$": "<rootDir>/$1",
+}
+```
+
+## Setup File
+
+`@jest.setup.ts` imports `@testing-library/jest-dom` to provide custom matchers:
+
+```typescript
+import "@testing-library/jest-dom";
+```
+
+This enables matchers like:
+- `toBeInTheDocument()`
+- `toHaveClass()`
+- `toHaveTextContent()`
+- `toBeVisible()`
+
+## Component Testing
+
+When testing React components:
+
+1. **Import required utilities**:
+   ```typescript
+   import { render, screen } from "@testing-library/react";
+   ```
+
+2. **Render components**:
+   ```typescript
+   render(<Navigation />);
+   ```
+
+3. **Query elements**:
+   - `screen.getByText()` - Find by text content
+   - `screen.getByRole()` - Find by accessibility role (preferred)
+   - `screen.getByTestId()` - Find by data-testid (use sparingly)
+
+4. **Assert**:
+   ```typescript
+   expect(screen.getByRole("navigation")).toBeInTheDocument();
+   ```
+
+## Best Practices
+
+- Use `getByRole` queries when possible (best for accessibility)
+- Avoid `getByTestId` unless necessary
+- Test user-facing behavior, not implementation details
+- Keep tests focused and isolated
+- Use descriptive test names that explain what is being tested
+- Group related tests with `describe` blocks
+
+## Running Tests
+
+```bash
+# Run all tests
+npm run test
+
+# Run tests in watch mode (not in package.json, but can be added)
+npm run test -- --watch
+
+# Run tests with coverage (not in package.json, but can be added)
+npm run test -- --coverage
+```
+
+## Test Scripts
+
+From `@package.json`:
+- `npm run test` - Runs Jest with `--passWithNoTests` flag
+- `npm run validate` - Runs lint, format check, typecheck, and tests in sequence
+
+## Example Test
+
+Example test for a component:
+
+```typescript
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import Navigation from "@/app/components/Navigation";
+
+describe("Navigation", () => {
+  it("renders the navigation component", () => {
+    render(<Navigation />);
+    expect(screen.getByRole("navigation")).toBeInTheDocument();
+  });
+
+  it("displays the site title", () => {
+    render(<Navigation />);
+    expect(screen.getByText("Haim Lev Tov")).toBeInTheDocument();
+  });
+
+  it("contains navigation links", () => {
+    render(<Navigation />);
+    expect(screen.getByText("About")).toBeInTheDocument();
+    expect(screen.getByText("Contact")).toBeInTheDocument();
+  });
+});
+```
+
+## References
+
+- Jest configuration: `@jest.config.ts`
+- Jest setup: `@jest.setup.ts`
+- Package scripts: `@package.json`
+- React Testing Library: https://testing-library.com/react
